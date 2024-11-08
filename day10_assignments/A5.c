@@ -67,9 +67,9 @@ int main()
     printf("");
     scanf("%d", &n);
     printf("\n");
-    printAlphabetTriangle(n);
+    printAlphabet(n);
     printf("\n");
-    printNumTriangle(n);
+    printNum(n);
     return 0;
 }
 
