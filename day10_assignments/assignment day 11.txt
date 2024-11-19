@@ -1,0 +1,49 @@
+how to put codes into multiple files?
+
+
+
+#include <stdio.h>
+#include <string.h>
+struct Employee 
+{
+    int id;
+    char name[50];
+    int age;
+    float salary;
+};
+int main()
+ {
+    int n, i;
+    printf("Enter the number of employees: ");
+    scanf("%d", &n);
+
+    // Declare an array of employee structures
+    struct Employee employees[n];
+
+    // Input employee data
+    for(i = 0; i < n; i++) 
+{
+        printf("\nEnter details for employee %d:\n", i + 1);
+        printf("Employee ID: ");
+        scanf("%d", &employees[i].id);
+
+        printf("Employee Name: ");
+        getchar();  // to consume the newline character left by the previous scanf
+        fgets(employees[i].name, sizeof(employees[i].name), stdin);
+        employees[i].name[strcspn(employees[i].name, "\n")] = 0;  // Remove the newline character from name
+
+        printf("Employee Age: ");
+        scanf("%d", &employees[i].age);
+
+        printf("Employee Salary: ");
+        scanf("%f", &employees[i].salary);
+    }
+
+    printf("\nEmployee Records:\n");
+    printf("ID\tName\t\tAge\tSalary\n");
+    for(i = 0; i < n; i++) {
+        printf("%d\t%s\t\t%d\t%.2f\n", employees[i].id, employees[i].name, employees[i].age, employees[i].salary);
+    }
+
+    return 0;
+}

@@ -1,0 +1,320 @@
+Concurrency:
+Ability of system to perform multiple tasks simultaneously or handle multiple operationswith overlapping time frames.
+allows app to manage numerous tasks or execute multiple operations concurrently,rather than strictly one at a time.
+
+
+lightweighted threads/process
+
+
+necessity of concurrancy:
+1. responsiveness:
+allows app to remain responsive to user actions even when performing long running task in background.y
+2. utilizing multicore processors:
+allows execute multiple instructions at once
+3.Efficient resource utilization:
+concurrancy allows program to better utilize available system resources by avoiding idle times
+4.scalability:
+enables app to scale better, especially in server environments where multiple clients or tasks must be handled simultaneously
+webservers, database servers, and other high performance system relies on concurrency to manage and serve large number of clients efficiently.
+5.Improved thoughtput
+
+
+
+What is concurrency in programming?
+1. multithreading
+Thread share same memory space , which allows efficient communication but requires careful synchronization to prevent race conditions(race condition?)
+2.multiprocessing
+seperate process are created to handle differernt task concurrently. 
+EACH PROCESS HAS IT'S OWN MEMORY SPACE, which is safer but requires inner-process communication methods like pipes or shared memory for collaboration
+3.asynchronous programming
+
+
+CONCURRENCY V/S PARALLELISM
+dealing with multiple task at once or having mutliple task in progress, v/s executing multiple task
+
+
+
+Methods to achieve concurrency in c:
+1. multithreading using posix threads:creates and manages threads within process
+2.using frok() for multithreading: creates separate processes within individual memory spaces
+3.asynchronous I/O: uses non-blocking I/O operations for concurrent processing.
+4. Atmoic operation: enables simple,thread-safe operations without full mutex overhead.
+5. Semaphores: controls access to shared resources by multiple threads
+6. Message queues: allow synchronous message passing between process
+
+
+
+
+
+Multithreaded Programming basics:
+Thread is a smallest unit of execution within a process.threads within same process share the same memory space 
+allowing them to communicate more efficiently but also induces potential risk when accessing shared resources.
+->each thread has its own stack,registers and program counter.
+->threads with same process can easily communicate and share data since they share same memory space
+
+
+
+Logical view of threads
+
+Threads v/s process:
+.each has its own logical control flow
+. each can run concurrently
+. each is context switched
+
+. threads share core and data
+. less expensive
+
+
+
+Posix threads(pthreads) Interface:
+create a thread, attach thread to particular function or thread, will have its own thread id(pthread self)
+
+
+orphan thread?
+
+man pthread?
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<pthread.h>
+void printHello();
+int main()
+{
+    
+pthread_t tid;
+int status=0;
+printf("\n In the main function\n");
+printf("\n I am main program/Process/MainThread\n");
+status=pthread_create(&tid,NULL,printHello,NULL); //1st null for thread id,2nd null for function 
+//pthread_join(tid,NULL);
+printf("\n after completing(main)\n");
+sleep(1);//sleep for 1 sec
+return 0;
+}
+void printHello()
+{
+printf("\n HELLO world\n");
+}
+
+
+-lpthread--> to execute all thread programs
+
+
+
+/usr/include/pthread.h:200:36: note: expected 'void * (*)(void *)' but argument is of type 'void (*)()'
+  200 |                            void *(*__start_routine) (void *),
+      |                            ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+/rbin/ld: /tmp/ccqTBcYp.o: in function `main':
+nWITSiZBbs.c:(.text+0x3a): undefined reference to `pthread_create'
+ERROR!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////-lpthread-->include library
+
+
+
+main is executing much faster than function hence hello world is not displayed
+
+
+
+
+
+
+
+.so flie?
+shared library?
+
+
+
+
+
+#include <stdio.h>
+   #include <stdlib.h>
+   #include <pthread.h>
+  
+   void printHello();
+   int main()
+   {
+       pthread_t tid;
+       int status = 0;
+     //&tid -- passing reference
+     printf("In the main function");
+     printf("\nI am Main program/process/Mainthread");
+     status = pthread_create(&tid,NULL,printHello,NULL);
+     pthread_join(tid,NULL);// alternate way is to use sleep(time) main for some time  sleep(1) -- main program waits for 1 second.
+
+     printf("\nAfter completing (main)");
+
+     return 0;
+
+ }
+
+ void printHello()
+ {
+     printf("\nHelloworld\n");
+ }
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
+
+#define ITNERS 1000000
+
+void printHello();
+
+int main()
+{
+	pthread_t tid;
+
+	int status=0;
+
+	printf("\nIn the Main Function\n");
+	printf("\nI am Main Program/Process/MainThread\n");
+
+	status = pthread_create(&tid,NULL,printHello,NULL);
+	// pthread_join(tid,NULL);
+	
+	
+	sleep(1);
+	printf("\nAfter completing (Main)\n");	
+
+	return 0;
+}
+
+void printHello()
+{
+	int i;
+	printf("\nHello World\n");
+	for(i=0;i<ITNERS;i++)
+		printf("\n\ti=%d",i);
+
+}
+
+
+
+//main()
+{
+int a=10;
+int arr[2]={1,2};
+func(&a)
+func2(arr)
+func3(arr)
+}
+func(int *)
+{
+a+=3;
+}
+func2(int *a)
+{
+a[0]=20;
+a[1]=200;
+}
+func3(int **b)
+
+sumodd and sumeven : void* --> thread create...vargs r in format of (void *) or null,this needs to be generic and hence used void*
+
+
+
+
+
+
+
+#include <stdio.h>
+#include<string.h>
+#include <unistd.h>
+#include<pthread.h>
+#include <stdlib.h>
+typedef unsigned long long ULL;
+   void *findnum(ULL ,ULL,ULL);
+int main()
+{
+    ULL s=0;
+    ULL e=100;
+    ULL k=99;
+    findnum(s,e,k);
+    return 0;
+}
+   //typedef unsigned long long ULL;
+   //void *findnum(ULL,ULL,int);
+   void *findnum(ULL s,ULL e,ULL key)
+   {
+       ULL i;
+       int flag=0;
+       for(i=5;i<e;i++)
+       {
+           if(i==key)
+           {
+              flag=1;
+              break;
+           }
+       }
+
+       if (flag==1)
+{
+  printf("\n found @ pos=%llu\n",i);   
+}
+else
+        printf("\n not found \n");
+   }
+
+
+
+
+
+
+
+
+pthread_join---. linear search...faster 
+
+
+
+
+contact switching?
+race condition?// to avoid this...make lock operator//u enter room-lock room--others outside room in queue--unlock to come outside
+
+common shared resource between 2 threads---use mutex
+
+
+pthread destroy of mutex??why do we do it??
+
+when to use threading?
+
+how and when to use destroy?
+pthread detatch?-immediately detaches thread from main function regardless of the function being performed or not
+
+
+semicolon in do while - it is to save the contents after exxecuting do statements 
+
+
+
+
+
+searching sorting ascending descending occurances , find substring
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

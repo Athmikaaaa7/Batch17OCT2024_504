@@ -1,0 +1,179 @@
+row is const but col is changing:   initialisation section is done once in lifetime but j is reborn everytime
+int a[2][3];
+for(i=0;i<2;i=++)
+{
+for(j=0;j<3;j++)
+scanf("%d",&a[i][j]);
+// 
+
+connectors?
+
+uml diagram
+flow chart-hld
+pseudocode -lld
+sequence diagram
+detailed sequencing
+blockdiagram
+
+-draw.io
+lucid chart
+
+
+
+strings:
+strlen
+strcmp - comparing ascii value of string; if(strcmp(s1,s2)==0);............(ei.id==101)&&(strcmp)--> bcz ei.id is in int type
+strcat - string concatenation ; strcat(s1,s2);  s1 isappended with s2. ------> s1 itself will be extended
+strcpy
+strstr
+str chr
+strtok
+
+
+
+
+
+
+
+
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+        int c1,c2,c3;
+        char res[40]={'\0',};
+        char temp[10]={'\0'};
+        char temp1[]={'2'};
+        printf("%d",sizeof(temp1)); // size=1 bcz it's a single character which won't have null
+        c1=2;
+        c2=1;
+        c3=0;
+        // 2*1=2
+        // c1 * c2=c3
+while(c2<11)
+{c3=c1*c2;
+         sprintf(temp,"%d x %d=%d",c1,c2,c3);
+strcpy(res,temp);
+
+        // it is in integer we have to convert it to string...typecasting or sprintf
+    printf("\nres=%s\n",res); // integer size is diff and char size is diff ----> segmentation earror
+    return 0;
+}
+
+
+
+
+temp[0]='2'; //untill it gets a null value it will return string length// cannot perform string operation correctly
+temp[1]='\0';// considers it as a string// except null value it is 1 char
+
+
+
+
+If digit is not returning string it cannot use nesting; strcat strcpy returns base address of string and hence can use nesting
+
+
+
+delimiter?????
+
+
+
+flag???????/
+ flag!=0---> false: will not execute loop
+flag=1---> true: will execute loop
+
+
+
+1st line of strtok should be out of loop
+
+
+
+for string , don't use '&'
+
+atoi?---> to get ascii value 
+
+
+
+
+
+
+functions:
+
+returndatatype fname(args)
+{
+return rdt;
+}
+
+
+int display(EMP *e)// catching as a pointer// we use *e to show initialize e as pointers
+{
+if(e==NULL)//empty structure and must return fail
+return 1; // return 0--->successful
+printf("\n ID:%d", e->id)// will be able to print the id
+printf("\n Name:%d", e->Name);
+printf("\n Gender:%c",e-> phno);
+printf("\nSalary:%d",e->sal);
+return 0;
+}
+
+
+
+while declaring prototype of function, structure has to be declared before display and use structure name
+
+
+
+unit test cases?
+
+testEmp=(EMP *)malloc(sizeof(EMP))//malloc?// meaning of this line?//contents are zero but will be displayed
+
+
+
+why Dynamic memory allocation?: for space optimization
+pointer points to unnamed address
+
+-> for pointer variables; instead of . we use -> ; 
+
+know where to use address of operator
+
+
+
+
+dynamic array memory loc for multiple emp record?
+
+free(e); we have to perform this when we have explicitly allocating dynamically
+
+
+
+type casting is mandatory in generic pointer
+
+
+
+moving from one base address to another---> incrementing or decrementing the pointers
+
+day12-p5.c-sir github
+free():invalid pointer
+aborted(core dump)       // this error bcz while moving, moved the base address
+                         *// we have moved the value from base address to some other address hence cannot free the allocated memory
+                         //pointer is pointing to null loc, we must free the base address first
+
+
+
+
+
+printf scanf to display employee data ... how is it diff in sir program?
+
+array is in in get and print in ours but he used generic to print single / multiple record....moving from one record to another in driver code
+
+
+union and enum????
+
+
+
+
+
+
+
+
+
+
+
+

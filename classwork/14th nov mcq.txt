@@ -1,0 +1,146 @@
+static auto extern register---> pointers
+
+
+ int x=3;
+    float y=3.0;
+    if(x==y) ///equal bcz 3.0 and not 3.1
+
+
+
+#include <stdio.h>
+int main()
+{
+   char ch;
+   if(ch=printf(""))// it is empty string and hence doesn't print any value
+    printf("hello");
+    else
+    printf("yes");
+
+    return 0;
+}
+
+
+
+
+#include <stdio.h>
+int main()
+{
+   int a[5]={5,1,15,20,25};
+   int i,j,m;
+   i=++a[1];
+   j=a[1]++;
+   m=a[i++];
+   printf("%d %d %d",i,j,m);
+    return 0;
+}
+// 3 2 15----->?variable increment and value increment
+
+
+
+
+
+#include <stdio.h>
+void main()
+{
+   int a=b=c=10;  // a and b is unassigned
+   a=b=c=10;
+   printf("%d%d%d",a,b,c);
+    return 0;
+}
+
+
+
+
+
+#include <stdio.h>
+void main()
+{
+   int i;
+  i=0x10+010+10;// octal+decimal+hexa //
+   printf("\nx=%x",i);
+   
+} //i=34 in decimal, hexadecimal x=22
+//%x to print hexadecimal value
+
+// conversion of decimal,octal and hexadecimal
+
+
+
+
+
+
+
+#define square(x) x*x //square of 10+2*10+2 -->10+12+2=32 //square=32
+void main()
+{
+printf("\n square=%d",square(10+2));
+}
+
+
+
+printf("%d",'B'<'A'); //ans:0
+
+
+
+printf("%d %d",10&20,10/20); // 0 0
+
+
+
+int i=48;
+printf("\n %c %d",i,i); //ans: 0 48 // ascii of 48=0, i=48
+
+
+
+int x=10,y=20;
+printf("\n %d",x,y); // ans:10 // only 1 format specifier is given hence 10
+
+
+
+int c=2,d=5,e=10,a;
+a=c>1?d>1||e>1?100:200:300; // if c=0, ans=300, none of the statements r executed
+printf("a=%d",a);
+// ans:a=100 ????
+//it doesn't check for e at all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

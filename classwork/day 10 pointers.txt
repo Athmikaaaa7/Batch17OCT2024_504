@@ -1,0 +1,915 @@
+USER DEFINED FUNCTION:----------------------------------------------------------------
+
+//demo on recursive function
+#include<stdio.h>
+int f(int);
+int main()
+{
+int res=f(5);
+printf("\nres=%d\n\n",res);
+return 0;
+}
+intf(int v)
+{
+f(v);
+}
+// this leads to stack overflow. we must kill that . to kill:
+
+int f(int v)
+{
+printf("\n v value: %d\n",v); // o/p: 5 4 3 2 1 0 0 1 2 3 4 res=4
+if(v==0) 
+return 1;// it must return to prev function. ex: in func f6 0==0 returns 1, so this must return to f5 where v=0. This process repeats and returns back to mainframe.
+v--;
+f(v);// sent to new function
+//printf("\n v value in function:%d\n",v); // 
+//return v; // returns to main function and gets stored in res. hence res=4
+}
+
+OUTPUT: --------------------------------
+v value in function:0
+
+ v value in function:1
+
+ v value in function:2
+
+ v value in function:3
+
+ v value in function:4
+
+Res=4
+
+
+
+function stack frame diff from: the memory values along with memory address gets destroyed-clears the memory on the whole
+recursive stack frame: destroys values not memory address(that holds the value, if destroyed cannot go back to recursive function).
+
+
+//fibonacci:
+int f(int v)
+{
+int ret;
+printf("\n v value: %d\n",v);
+if(v==1) 
+return 1;
+ret=v*f(--v);
+printf("\n v value in function:%d\n",v); 
+return ret;
+}
+
+OUTPUT:
+ v value: 5
+
+ v value: 4
+
+ v value: 3
+
+ v value: 2
+
+ v value: 1
+
+ v value in function:1
+
+ v value in function:2
+
+ v value in function:3
+
+ v value in function:4
+
+Res=24
+-----------------------------------------------------------------------------------------------
+
+POINTERS:
+ 
+1.It points to the address.
+2.Pointer doesn't belong to any kind of datatype. 
+3.Just a special variable that can hold the address.
+4.adress can be of any datatype.
+
+
+declaration: <datatype> * <name of pointer>
+we must read it from right to left. ptr is special veriable pointing to int datatype
+
+It can even point to nothing. (void*ptr). this is also called as generic ptr bcz it can hold address of any dt and point to any dt.
+
+
+TYPES OF POINTERS:(near and far pointers)
+1.null
+2.void
+3.wild- point to anywhere in the program. ex: (float*ptr). very dangerous
+4.dangling pointers(situation and not name of ptr)
+
+
+int*ptr=NULL; pointing to nothing . first do this then u can use it for others.
+
+-ptr also need to have it's own address
+-size of all pointers will be same(any dt) as 4 or 8bytes.
+-unsigned ptr.
+-all values of ptr should be pos as it stores only address
+-pointer doesn't have any dt hence stored as unsigned(%u)
+
+
+PROGRAM: 
+#include<stdio.h>
+int main()
+{
+int a=10;
+float b=20.2;
+long long int*ptr=NULL; //long int=8bytes, long long int=16bytes
+printf("\n address of a=%u and it's value=%d",&a,a);
+printf("\n address of b=%u and it's value=%f",&b,b);
+printf("\n address of a=%u and it's value=%u",&ptr,ptr); //there r 4bytes diff between their addresses to each other
+printf("\n size of a=%d",sizeof(a));
+printf("\n size of b=%d",sizeof(b));
+printf("\n size of ptr=%d",sizeof(ptr));
+printf("\n lli=%d",sizeof(unsigned long long double)); // max can take up to 8bytes
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:
+address of a=4086375340 and it's value=10
+ address of b=4086375336 and it's value=20.200001
+ address of a=4086375328 and it's value=0
+ size of a=4
+ size of b=4
+ size of ptr=8
+ lli=8 
+
+
+
+PROGRAM: to display the address of ptr pointing to
+#include<stdio.h>
+int main()
+{
+int a=10;
+float b=20.2;
+long long int*ptr=NULL; 
+printf("\n address of a=%u and it's value=%d",&a,a);
+printf("\n address of b=%u and it's value=%f",&b,b);
+printf("\n address of a=%u and it's value=%u",&ptr,ptr); 
+printf("\n size of a=%d",sizeof(a));
+printf("\n size of b=%d",sizeof(b));
+printf("\n size of ptr=%d",sizeof(ptr));
+ptr=&a; // if changed to b, then ptr shows address of b
+printf("\n ptr value=%u",ptr); // holds address of 'a'   
+
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:
+ address of a=525703804 and it's value=10
+ address of b=525703800 and it's value=20.200001
+ address of a=525703792 and it's value=0
+ size of a=4
+ size of b=4
+ size of ptr=8
+ ptr value=525703804
+
+
+
+contents of address--> we must do deref --> we get that from *ptr
+
+
+PROGRAMS: generic pointers--> you need type conversion
+#include<stdio.h>
+int main()
+{
+int a=10;
+float b=20.2;
+long long int*ptr=NULL; 
+printf("\n address of a=%u and it's value=%d",&a,a);
+printf("\n address of b=%u and it's value=%f",&b,b);
+printf("\n address of a=%u and it's value=%u",&ptr,ptr); 
+printf("\n size of a=%d",sizeof(a));
+printf("\n size of b=%d",sizeof(b));
+printf("\n size of ptr=%d",sizeof(ptr));
+ptr=&a;
+printf("\n ptr value=%u",ptr); // holds address of 'a'   
+printf("\n value pointed by ptr=%d",*(int*)ptr);
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:
+address of a=158185932 and it's value=10
+ address of b=158185928 and it's value=20.200001
+ address of a=158185920 and it's value=0
+ size of a=4
+ size of b=4
+ size of ptr=8
+ ptr value=158185932
+ value pointed by ptr=10
+
+ERROR:invalid use of void expression
+ptr is generic ptr holding n no.of address
+unable to convert to int  // before correction: *ptr, after correction:*(int*)ptr
+
+
+
+You don't need type conversion if it is pointing to similar dt
+int *ptr=NULL;
+printf("\n value pointed by ptr=%d",*ptr);
+
+EXAMPLE PROGRAM:
+#include<stdio.h>
+int main()
+{
+int a=10;
+float b=20.2;
+int*ptr=NULL; 
+printf("\n address of a=%u and it's value=%d",&a,a);
+printf("\n address of b=%u and it's value=%f",&b,b);
+printf("\n address of a=%u and it's value=%u",&ptr,ptr); 
+printf("\n size of a=%d",sizeof(a));
+printf("\n size of b=%d",sizeof(b));
+printf("\n size of ptr=%d",sizeof(ptr));
+ptr=&a;
+printf("\n ptr value=%u",ptr); // holds address of 'a'   
+printf("\n value pointed by ptr=%d",*ptr);
+printf("\n\n");
+return 0;
+}
+OUTPUT:
+ address of a=2496951420 and it's value=10
+ address of b=2496951416 and it's value=20.200001
+ address of a=2496951408 and it's value=0
+ size of a=4
+ size of b=4
+ size of ptr=8
+ ptr value=2496951420
+ value pointed by ptr=10	
+
+
+PROGRAM:
+#include<stdio.h>
+int main()
+{
+int a=10;
+int*ptr=NULL;
+printf("\n address of ptr=%u and stored address of in ptr=%u",&ptr,ptr);
+ptr=&a;
+printf("\n address of ptr=%u and stored address of in ptr=%u",&ptr,ptr);
+printf("\n value stored at %u=%d",ptr,*ptr);
+printf("\n\n");
+return 0;
+}
+OUTPUT:
+ address of ptr=322686784 and stored address of in ptr=0
+ address of ptr=322686784 and stored address of in ptr=322686796
+ value stored at 322686796=10
+
+
+PROGRAM:
+#include<stdio.h>
+int main()
+{
+int a=10;
+int b[3]={11,12,13};
+int*ptr=NULL;
+printf("\n address of ptr=%u and stored address of in ptr=%u",&ptr,ptr);
+ptr=&a;
+printf("\n address of ptr=%u and stored address of in ptr=%u",&ptr,ptr);
+printf("\n value stored at %u=%d",ptr,*ptr);
+printf("\n base address of stored at %u=%d",ptr,*ptr);
+ptr=&b[0];
+printf("\n value stored at b=%u\n",&b[0]);
+printf("\n b[0]=%d",ptr[0]); // array notation
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:
+ address of ptr=1349551704 and stored address of in ptr=0
+ address of ptr=1349551704 and stored address of in ptr=1349551724
+ value stored at 1349551724=10
+ base address of stored at 1349551724=10
+ value stored at b=1349551712
+
+ b[0]=11
+
+
+
+#include<stdio.h>
+int main()
+{
+int a=10;
+int b[3]={11,12,13};
+
+int*ptr=NULL;
+printf("\n address of ptr=%u and stored address of in ptr=%u",&ptr,ptr);
+ptr=&a;
+printf("\n address of ptr=%u and stored address of in ptr=%u",&ptr,ptr);
+printf("\n value stored at %u=%d",ptr,*ptr);
+printf("\n base address of stored at %u=%d",ptr,*ptr);
+ptr=&b[0];
+printf("\n value stored at b=%u\n",&b[0]);
+printf("\n b[0]=%d",ptr[0]);
+printf("\n b[1]=%d",ptr[1]);
+printf("\n b[2]=%d",ptr[2]);
+
+printf("\n in pointer notation\n");
+// pointer notation
+printf("\n b[0]=%d",*(ptr+0)); //pointer notation means it'll have astrix symbol
+printf("\n b[1]=%d",*(ptr+1));
+printf("\n b[2]=%d",*(ptr+2));
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:
+ address of ptr=133902824 and stored address of in ptr=0
+ address of ptr=133902824 and stored address of in ptr=133902844
+ value stored at 133902844=10
+ base address of stored at 133902844=10
+ value stored at b=133902832
+
+ b[0]=11
+ b[1]=12
+ b[2]=13
+ in pointer notation
+
+ b[0]=11
+ b[1]=12
+ b[2]=13
+
+
+
+Thumb rule of pointer:
+1.If u have address of operator and astrix symbol side by side(&*), it will nullify eachother and have no symbols.
+2.Converting array to pointer notation, op[]-->*op
+  Converting(means *) pointer to array notation *op-->op[]
+
+
+PROGRAM:
+#include<stdio.h>
+int main()
+{
+int a=10;
+int b[3]={11,12,13};
+int i;
+int*ptr=NULL;
+//ptr=&b[0]//pointer is pointing to base address of array
+//ptr=&*(b+0);//*& nullifies eachother
+//ptr=(b+0);//b+0 is equal to b
+ptr=b;
+for(i=0;i<3;i++)
+printf("\n%d",*(ptr+i));
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:// whatever we want to do with array we can do with pointers
+11
+12
+13
+
+
+PROGRAM: changing 2nd ele to smtng
+#include<stdio.h>
+int main()
+{
+int a=10;
+int b[3]={11,12,13};
+int i;
+int*ptr=NULL;
+ptr=b;
+for(i=0;i<3;i++)
+printf("\n%d",*(ptr+i));
+//b[1]=100;
+*(ptr+1)=100;
+for(i=0;i<3;i++)
+printf("\n%d",*(ptr+i));
+printf("\n\n");
+return 0;
+}
+
+OUTPUT:
+11
+12
+13
+11
+100
+13
+
+
+
+PROGRAM:
+#include <stdio.h>
+int main() 
+{
+    int a=10;
+    int *ptr=NULL;
+    ptr=&a;
+    printf("\n value stored at ptr=%d",*ptr); //OUTPUT: value stored at ptr=10
+printf("\n\n");
+    return 0;
+}
+
+
+
+PROGRAM:
+#include <stdio.h>
+int main() 
+{
+    int a=10;
+    int *ptr=NULL;    
+    ptr=&a;
+    printf("\n value stored at ptr=%d",*ptr);
+    *ptr=101;                                    
+    printf("\n value stored at ptr=%d",*ptr);
+    printf("\nvalue of a=%d",a);
+printf("\n\n");
+    return 0;
+}
+
+OUTPUT:
+value stored at ptr=10
+ value stored at ptr=101
+value of a=101
+
+
+
+
+
+#include <stdio.h>
+int main() 
+{
+    int a=10;
+    int *ptr=NULL;
+    /*
+    ptr=&a;
+    printf("\n value stored at ptr=%d",*ptr);
+    */
+    *ptr=101;                                   //directly we are giving value without the address
+    printf("\n value stored at ptr=%d",*ptr);   //storing 101 in an unnamed address--> we must dynamically allocate address
+    printf("\nvalue of a=%d",a);
+    
+printf("\n\n");
+    return 0;
+}
+
+ERROR:
+SEGMENTATION FAULT DURING RUNTIME
+
+
+
+-To get an unnamed address, dynamically allocate memory using malloc calloc
+
+man malloc
+Q) In what cases malloc will fail? unable to allocate memory or fails to allocate large size of memory. 
+when malloc fails, it returns null
+if malloc passes it returns base address
+
+
+
+allocating memory to pointer before using it
+PROGRAM:
+#include <stdio.h>
+#include<stdlib.h>
+int main() 
+{
+    int a=10;
+    int *ptr=NULL;
+    ptr=(int*)malloc(4);//type conversion to integer, you need to hold these base address as it is unnamed so once lost is forever lost
+    printf("\n address of ptr pointing to =%u",ptr);// to know the address
+    *ptr=101;
+    printf("\n value stored at ptr=%d",*ptr);
+    printf("\nvalue of a=%d",a);
+    
+printf("\n\n");
+    return 0;
+}
+
+OUTPUT"
+address of ptr pointing to =31711904
+ value stored at ptr=101
+value of a=10
+
+
+
+using pointer to behave like array
+PROGRAM:
+#include <stdio.h>
+#include<stdlib.h>
+int main() 
+{
+    int a=10,i;
+    int *ptr=NULL;
+    ptr=(int*)malloc(1*sizeof(int)); //even if it is giving 1 memory space, it may print the data for unreserved memory space but may not be guarenteed to remain same. this will be used as garbage value in future bcz the memory space is not utilised by u and hence can be overwritten in future.
+    printf("\n address of ptr pointing to =%u",ptr);
+    ptr[0]=101; //*(ptr+0)=101;// pointer notation
+                  *(ptr+1)=102;
+                  *(ptr+2)=103;
+    ptr[1]=102;
+    ptr[2]=103;
+    printf("\n value stored at ptr=%d",*ptr);
+    printf("\nvalue of a=%d",a);
+    printf("\n array elements are:\n");
+    for(i=0;i<3;i++)
+    printf("\n%d\n",ptr[i]);
+printf("\n\n");
+    return 0;
+}
+
+OUTPUT:
+ address of ptr pointing to =15475360
+ value stored at ptr=101
+value of a=10
+ array elements are:
+
+101
+
+102
+
+103
+
+
+
+!)malloc will return null if memory is not allocated, to kill this bug:
+
+ptr=(int*)malloc(100000000000*100000000000); 
+    if(ptr==NULL)
+    {
+        perror("malloc:");//will print it's own message
+        exit(0);
+    }
+
+error:malloc:: Cannot allocate memory
+
+
+
+
+
+#include <stdio.h>
+#include<stdlib.h>
+int main() 
+{
+    int a=10,i;
+    int *ptr=NULL;
+    /*
+    ptr=&a;
+    printf("\n value stored at ptr=%d",*ptr);
+    */
+    ptr=(int*)malloc(1*sizeof(int)); 
+    printf("\n address of ptr pointing to =%u",ptr);
+  
+    for(i=0;i<3;i++)
+    printf("\n%d element address=%u",i,&ptr[i]);
+    *ptr=101;
+    printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;//shift it's pointer by 4 bytes
+    *ptr=102;
+     printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;
+    *ptr=103;
+     printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;
+printf("\n\n");
+    return 0;
+}
+OUTPUT:
+ address of ptr pointing to =19350176
+0 element address=19350176
+1 element address=19350180
+2 element address=19350184
+101 is stored at 19350176
+102 is stored at 19350180
+103 is stored at 19350184
+
+
+*ptr++--> only the value gets incremented not movement of address
+
+PROGRAM:
+#include <stdio.h>
+#include<stdlib.h>
+int main() 
+{
+    int a=10,i;
+    int *ptr=NULL;
+    /*
+    ptr=&a;
+    printf("\n value stored at ptr=%d",*ptr);
+    */
+    ptr=(int*)malloc(1*sizeof(int)); 
+    printf("\n address of ptr pointing to =%u",ptr);
+  /*
+   * *(ptr+0)=101;// pointer notation
+    *(ptr+1)=102;
+    *(ptr+2)=103;
+    */
+    for(i=0;i<3;i++)
+    printf("\n%d element address=%u",i,&ptr[i]);
+    *ptr=101;
+    printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;//shift it's pointer by 4 bytes
+    *ptr=102;
+     printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;
+    *ptr=103;
+     printf("\n%d is stored at %u",*ptr,ptr);
+     ptr--;
+     ptr--;
+     /*
+    printf("\n value stored at ptr=%d",*ptr);
+    printf("\nvalue of a=%d",a);
+    */
+    printf("\n array elements are:\n");
+    for(i=0;i<3;i++)
+    {
+*ptr++
+    printf("\n%d\n",*ptr);
+    ptr++;
+    }
+printf("\n\n");
+    return 0;
+}
+
+OUTPUT:
+ address of ptr pointing to =35422880
+0 element address=35422880
+1 element address=35422884
+2 element address=35422888
+101 is stored at 35422880
+102 is stored at 35422884
+103 is stored at 35422888
+ array elements are:
+
+102
+
+0
+
+0
+
+
+
+int *temp=NULL;
+ptr=temp;// to move to base loc
+temp=ptr;
+#include <stdio.h>
+#include<stdlib.h>
+int main() 
+{
+    int a=10,i;
+    int *ptr=NULL;
+    int *temp=NULL;
+    /*
+    ptr=&a;
+    printf("\n value stored at ptr=%d",*ptr);
+    */
+    ptr=(int*)malloc(1*sizeof(int)); 
+    temp=ptr;
+    printf("\n address of ptr pointing to =%u",ptr);
+  /*
+   * *(ptr+0)=101;// pointer notation
+    *(ptr+1)=102;
+    *(ptr+2)=103;
+    */
+    for(i=0;i<3;i++)
+    printf("\n%d element address=%u",i,&ptr[i]);
+    *ptr=101;
+    printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;//shift it's pointer by 4 bytes
+    *ptr=102;
+     printf("\n%d is stored at %u",*ptr,ptr);
+    ptr++;
+    *ptr=103;
+     printf("\n%d is stored at %u",*ptr,ptr);
+     ptr--;
+     
+    
+     /*
+    printf("\n value stored at ptr=%d",*ptr);
+    printf("\nvalue of a=%d",a);
+    */
+    printf("\n array elements are:\n");
+    for(i=0,ptr=temp;i<3;ptr++)
+    {
+    printf("\n%d\n",*ptr);
+    
+    }
+printf("\n\n");
+    return 0;
+}
+/tmp/U
+
+ address of ptr pointing to =8491680
+0 element address=8491680
+1 element address=8491684
+2 element address=8491688
+101 is stored at 8491680
+102 is stored at 8491684
+103 is stored at 8491688
+ array elements are:
+
+101
+
+102
+
+103
+
+
+
+
+static array vs dynamic array?how will it change in programs?
+
+
+write a program to find the values if it is present in list of 10 elements using dynamic array using functions
+sir directory in linuxbox: day10, p5.c
+
+PROGRAM:
+#include <stdio.h>
+#include <stdlib.h>
+int* mem(int n) 
+{
+    int *ptr = (int*)malloc(n * sizeof(int)); 
+    if (ptr == NULL) 
+    {
+        perror("Memory allocation failed");
+        exit(1);  
+    }
+    return ptr;
+}
+
+void ele(int* arr, int n)
+{
+    for (int i = 0; i < n; i++,arr++)
+    {
+        printf("Element %d: ", i + 1);
+        scanf("%d", arr);
+    }
+}
+
+int searchValue(int* arr, int n, int search)
+{
+    for (int i = 0; i < n; i++) 
+    {
+        if (arr[i] == search) 
+        {
+            return 1;  
+        }
+    }
+    return 0;  
+}
+
+int main()
+{
+    int *arr;
+    int n = 5;  
+    int search;  
+
+    arr = mem(n); 
+    printf("Enter %d elements:\n", n);
+    ele(arr, n);  
+
+    printf("Enter the value to search for: ");
+    scanf("%d", &search); 
+
+    if (searchValue(arr, n, search))  
+    {
+        printf("Value %d found.\n", search);
+    }
+    else
+    {
+        printf("Value %d not found.\n", search);
+    }
+}
+
+
+OUTPUT:
+Enter 5 elements:
+Element 1: 12
+Element 2: 13
+Element 3: 11
+Element 4: 14
+Element 5: 15
+Enter the value to search for: 11
+Value 11 found.
+
+
+
+
+
+
+
+
+
+
+
+Dangling pointers: pointer is pointing to ref/address where address/ref has been destroyed
+
+stack frame is destroyed and so is the address/ref. pointer is pointing to unknown ref.
+pointer is pointing to memory with unknown ref.--->segmentation error (core dump)
+
+to overcome dangling pointer situtation : through storage classes such as static,extern,auto and resistor---> static keyword is to be used
+makes variable to exist till end of process
+
+EXAMPLE PROGRAM:
+#include <stdio.h>
+int *allocmem();
+int main() 
+{
+   int a=10;
+   int *ptr=NULL;
+   ptr =allocmem();
+   printf("\n%d\n",*ptr);
+    return 0;
+}
+int *allocmem()
+{
+    static int a=10; //eliminates dangling pointer error
+    return &a; // (return a;) gives address, (return &a;) gives value
+}// o/p: 10
+
+
+static: declaring variable static makes it global variable type as it exists till end of program
+then main can't access that variable directly.
+once it is declared, it won't be declared multiple times.
+if there exists multiple functions, address wont be destroyed but not the variable with keyword static
+
+
+PROGRAM:
+#include <stdio.h>
+#include<stdlib.h>
+int func();
+int main() 
+{
+    int ret=0;
+    ret=func();
+    printf("\n ret=%d",ret);
+    ret=func();
+    printf("\n ret=%d",ret);
+    printf("\n");
+    return 0;
+}
+int func()
+{
+    static int a=10;
+    a=a+2;
+    return a;
+}
+
+
+
+
+
+How many times will cpu access this? 3,00,002-->{int i:1, i=0:1, i<100000:100000, i++=100000, printing: 100000 }
+#include <stdio.h>
+#include<stdlib.h>
+int func();
+int main() 
+{
+   register int ret=0;
+    ret=func();
+    printf("\n ret=%d",ret);
+    ret=func();
+    printf("\n ret=%d",ret);
+    printf("\n\n");
+    int i;
+    for(i=0;i<100000;i++)
+printf("%d",i);
+    return 0;
+}
+
+if it is rtos(-real time operating system) use register keywords
+
+
+
+
+Mutable array: EXTERN KEYWORD: gives reference that it is declared in some other file
+HOW TO DECLARE FROM SOM OTHER FILE?----------P10 AND CONFIG(from sir directory)
+#include<stdio.h>
+int CAP=5;
+int main()
+{
+    int arr[CAP];
+    int i;
+    for(i=0;i<CAP;i++)
+    scanf("%d",&arr[i]);
+    printf("\nlist is\n");
+    for(i=0;i<CAP;i++)
+    printf("\n%d",arr[i]);
+    printf("\n\n");
+    return 0;
+}
+OUTPUT:
+1
+3
+4
+5
+6
+
+list is
+
+1
+3
+4
+5
+6
+
+
+
+
+
+

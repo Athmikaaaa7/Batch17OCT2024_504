@@ -1,0 +1,24 @@
+what are arrays? why are they needed?
+data structure storing collection of ele of same type and in same order.stored in contiguous memory loc.
+(to organise data for efficient access and manipulation)
+fixed size
+sequentially indexed
+
+a+= (+=: modifies the existing list in place)
+
+declaration or syntax: <type array name[no. of ele]>   int- A CONTIGUOUS MEMORY ALLOC OF NO. OF ELE
+values can be assigned to variables
+
+& is used to get loc of memory: &<arrayname>[index]
+
+arrays can be declared with initialization: int marks[7]={1,2,3,4,5}
+
+negative value is invalid as index
+
+array indices n to n-1 is correct
+
+ptr++ : It returns the size, in bytes, of the pointer itself, not the size of the data it points to
+
+
+In C, static variables are initialized to zero by default if no other initializers are provided.
+static int arr2[MAX]

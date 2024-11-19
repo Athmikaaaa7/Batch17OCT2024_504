@@ -1,0 +1,413 @@
+free(head)-->free of dynamic memory in linkedlist
+only by using valgrind, we'll be able to know if the memory is free or not
+
+every time malloc is used, heap is created--->we must free all of them
+
+
+sorting-quick sort,merge sort, heap sort
+
+
+
+sprint should include concurranncy and sockets  with dsa and algorithms
+
+
+find the number of nodes present in linked list??????????????????????????????????????????????????????????????????????????????????????
+
+
+STACK-lifo:
+1. stack grows from bottom to top, top grows from bottom
+2. top=limit---->container is full
+3. top=bottom---->container is empty
+4. size limit of max must be fixed, the bottom must be initialized 
+5. push-is container full?
+6. pop-is container empty?
+
+
+DEMO ON STACK USING ARRAYS----------------day17,sir repository------------------------------------------------------------------------------------------
+
+satck_v01.c
+#include<stdio.h>
+#include<stdlib.h>
+#include<stack_V01.h>
+int top=-1;
+int bottom=-1;
+int push(int v);
+{
+if(top==MAX-1)// -1 as we are starting from 0th element
+{
+printf("\n stack container is full\n");
+return 0;
+}
+top++; //one layer up
+stackcont[top]=v// container is empty//top-->1st element to be inserted//since top=0, it statrs from bottom element
+
+}
+int pop()
+{
+int v;
+if(top==bottom)
+{
+printf("\n stack container is empty\n");
+return 0;
+} 
+v=stackcont[top];
+top--;//lowering the values of top
+return v;
+}
+
+void displaystack()
+{
+int iter;//iteration
+if (top==bottom)
+{
+printf("\n stack elements are\n")
+for(iter=top;iter>bottom;iter--)//printing in reverse direction for 5 being top ele and 1 being bottom ele
+{
+printf("\n%d",stackcont[iter]); // we should not print anything if stack is empty
+return 0;
+}
+
+
+
+satck_v01.h
+#pragma once//define header file once
+
+#define MAX 5
+int bottom=-1;// bacause the 1st element must be indexed to 0
+int top=0;
+int push(int);
+int pop();// not initialising bcz it will delete from top element only
+void dispstack();
+int stackcont[MAX];
+#endif
+
+
+main.c
+#include<stdio.h>
+#include<stack_v01.h>
+int main()
+{
+int v;
+//v=pop();
+//printf("\n%d element is deleted from the container stack",v);
+push(10);//stack elements are printing as zero bcz?
+push(11);
+push(12);
+push(13);
+push(14);
+push(15);
+dispstack();
+for(i=0;i<max;i++)
+{
+pop();
+v=pop();
+printf("\n%d element is deleted from the container stack",v);
+dispstack();
+}
+printf("\n\n");
+return 0;
+}
+
+
+//how to avoid multiple definitions of variables?//
+
+
+gcc -o ./bin/app -I ./ ./main.c ./stack.c ------------>compiling, create bin directory along with main.c,stack.c,stack.h
+./bin/app--------------------------------------------->executing
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//allocating memory dynamically========================================================================================================================
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int *stackCont = NULL;
+int top = -1;
+int capacity = 10;
+
+int resizeStack() {
+    capacity *= 2;
+    int *newStack = (int *)realloc(stackCont, capacity * sizeof(int));
+    if (newStack == NULL) {
+        printf("Memory allocation failed!\n");
+        return 0;
+    }
+    stackCont = newStack;
+    return 1;
+}
+
+int push(int v) {
+    if (top == capacity - 1) {
+        if (!resizeStack()) {
+            return 0;
+        }
+        printf("\nStack resized to new capacity %d\n", capacity);
+    }
+    stackCont[++top] = v;
+    return 1;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("\nStack is empty\n");
+        return -1;
+    }
+    return stackCont[top--];
+}
+
+void dispStack() {
+    if (top == -1) {
+        printf("\nStack is empty\n");
+        return;
+    }
+    printf("\nStack elements are:\n");
+    for (int i = top; i >= 0; i--) {
+        printf("%d\n", stackCont[i]);
+    }
+}
+
+int main() {
+    stackCont = (int *)malloc(capacity * sizeof(int));
+    if (stackCont == NULL) {
+        printf("Memory allocation failed!\n");
+        return -1;
+    }
+
+    push(10);
+    push(20);
+    push(30);
+    push(40);
+    push(50);
+    dispStack();
+
+    printf("Popped: %d\n", pop());
+    dispStack();
+
+    push(60);
+    push(70);
+    dispStack();
+
+    free(stackCont);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+QUEUE:fifo,top/rear is increasing
+
+1. if top=max-->stack is full
+2. if top=bottom-->stack is empty
+3. front=rear-->empty queue
+4. rear=max-->queue is full
+
+front---rear->0-1-2-3----------//rear is growing when elements are added//exitting from queue:front is growing 
+
+
+
+when front reaches max-->reset front and rear//=0---->we do this in pop operation
+
+nomenclature:
+push-->enqueue
+pop-->dequeue
+
+display elements vertically:front to top(rear)
+
+
+
+
+#include<stdio.h>
+#define MAX 5
+int rear=0;
+int front=0;
+int q[MAX];
+void enqueue(int);
+void dequeue();
+void dispqueue();
+int main()
+{
+enqueue(10);
+enqueue(20);
+enqueue(30);
+enqueue(40);
+dispqueue();
+dequeue();
+dispqueue();
+
+printf("\n\n");
+return 0;
+}
+void dispqueue()
+{
+int i;
+if (front==rear)
+{
+printf("\n empty queue\n");
+return ;
+}
+printf("\n queue is\n");
+for(i=front;i<rear;i++)
+printf("%d ",q[i]);
+printf("\n\n");
+}
+
+void enqueue(int val)
+{
+if(rear==MAX)
+{
+printf("\nqueue is full\n");
+return ;
+}
+q[rear]=val;//rear is growing
+rear++;
+}
+
+void dequeue()
+{
+if (front==rear)
+{
+front=0;
+rear=0;
+printf("\n empty queue\n");//reset must be done
+return ;
+}
+printf("\n%d is dequeued from the queue",q[front]);//eliminate 1st ele that starts from front
+front++;
+}
+
+
+
+
+menu based employee fro deleting node,creating node,add node-front or back....how to create or truncate file?,rewrite the data?
+
+
+
+create emp record dynamically and display it bu forming link list and using stack operations
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAX 5
+
+typedef struct Employee 
+{
+    int id;
+    char name[50];
+    float salary;
+    struct Employee* next;  
+} Employee;
+
+Employee* top = NULL;  // Top of the stack
+
+
+void push(int id, const char* name, float salary) {
+    Employee* newEmp = (Employee*)malloc(sizeof(Employee));
+    if (newEmp == NULL) {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+    
+    newEmp->id = id;
+    strncpy(newEmp->name, name, 50); 
+    newEmp->salary = salary;
+    newEmp->next = top;  // Link the new employee to the current top of the stack
+    top = newEmp;  // Update the top to the new employee
+    printf("Employee %s pushed to the stack.\n", name);
+}
+
+Employee* pop()
+ {
+    if (top == NULL) 
+{
+        printf("Stack is empty!\n");
+        return NULL;
+    }
+
+    Employee* temp = top;
+    top = top->next;  // Move the top to the next employee in the stack
+    return temp;
+}
+
+void display()
+ {
+    if (top == NULL)
+ {
+        printf("Stack is empty!\n");
+        return;
+    }
+    Employee* current = top;
+    printf("\nEmployee records in the stack:\n");
+    while (current != NULL)
+ {
+        printf("ID: %d, Name: %s, Salary: %.2f\n", current->id, current->name, current->salary);
+        current = current->next;
+    }
+}
+
+
+int main() 
+{
+    push(1, "Alice", 55000);
+    push(2, "Bob", 62000);
+    push(3, "Charlie", 47000);
+    push(4, "David", 75000);
+
+
+    display();
+
+    Employee* emp = pop();
+    if (emp != NULL) {
+        printf("\nPopped employee: ID: %d, Name: %s, Salary: %.2f\n", emp->id, emp->name, emp->salary);
+        free(emp);  // Free the memory of the popped employee
+    }
+
+    display();
+
+    push(5, "Eve", 53000);
+    push(6, "Frank", 68000);
+
+    display();
+
+    while (top != NULL) {
+        Employee* emp = pop();
+        free(emp);
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+stackemp.v2.c----make changes in this
+
+
+
+
+
+
+CUNIT:-----------------to be used in sprint--------------------------------------------------------------------------------------------------------
+
+validate phone number: use expression evaluation
+
+
+sunny test case-positive test case
+
+
+
+
+
+
+

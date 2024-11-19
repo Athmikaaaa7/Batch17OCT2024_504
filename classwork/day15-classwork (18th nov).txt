@@ -1,0 +1,452 @@
+self referential pointers-pointers pointing to itself
+
+navigation can be done only using pointer expression
+
+printf("%d",ptr->value); // when do we use -> ?
+
+pointer navigation: ptr=&h2; // we make relationships to navigate// created linked list
+
+//singly linked list :
+ptr=&h2
+ptr=h1.ptr //=to base address of ptr
+printf("%d",ptr->value)
+
+
+
+
+PROGRAM:
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+int val;
+struct node *ptr; // SRP-self referential pointer
+}
+NODE;
+
+int main()
+{
+//creating node and allocated memory
+NODE h1,h2,h3;
+//ptr1 is used to navigate/traverse between nodes
+NODE *ptr1=NULL;
+//initialize value to check each node
+h1.val=10;
+h1.ptr=NULL;
+h2.val=20;
+h2.ptr=NULL;
+h3.val=30;
+h3.ptr=NULL;
+
+printf("\n address of h1=%p",&h1);
+printf("\n address of h2=%p",&h2);
+printf("\n address of h3=%p",&h3);
+printf("\n address of ptr1=%p",&ptr1);
+
+// printing values
+printf("\n h1.value=%d and ptr=%p",h1.val,h1.ptr);
+printf("\n h2.value=%d and ptr=%p",h2.val,h1.ptr);
+printf("\n h3.value=%d and ptr=%p",h3.val,h1.ptr);
+printf("\n contents of ptr1/ptr1 is pointing to %p",ptr1);
+
+//making relationship which is used to traverse(create linked list)
+h1.ptr=&h2;
+h2.ptr=&h3;
+//linked list is created
+//navigating or traverse
+ptr1=&h1; //base address of h1
+printf("\n %d",h1.val);
+printf("\n %d",ptr1->val);
+
+ptr1=h1.ptr; //ptr=&h2//pointer pointing to h2
+printf("\n %d",ptr1->val);
+
+ptr1=h2.ptr; //ptr=&h3
+printf("\n %d",ptr1->val);
+
+printf("\n\n");
+return 0;
+}
+
+
+OUTPUT:
+  address of h1=0x7fff698538d0
+ address of h2=0x7fff698538c0
+ address of h3=0x7fff698538b0
+ address of ptr1=0x7fff698538a8
+ h1.value=10 and ptr=(nil)
+ h2.value=20 and ptr=(nil)
+ h3.value=30 and ptr=(nil)
+ contents of ptr1/ptr1 is pointing to (nil)
+ 10
+ 10
+ 20
+ 30
+
+
+
+SINGLY LINKED LIST:
+1.creating node
+2.initializing
+3.making relationship(creating linked list)
+4.navigating
+
+
+(derive code from sir directory) // we are using ptr1 to traverse throught and not h1,2,3,4...
+//segmentation core dump--->accessing beyound code.....
+
+replacing address to pointer
+
+if node is present ...print value, else don't----> error handling
+
+address of h1 is nothing but ptr1 and vice versa
+
+address of operator?
+
+
+
+
+
+
+
+create new node and add it at end .By using loop statement,navigate//point ptr1 to newly linked base address
+//while creating new node--->pointer that is self assign it to null,then make rel
+
+PROGRAM:
+#include <stdio.h>
+#include <stdlib.h>
+ 
+typedef struct node
+{
+    int val;
+    struct node *ptr; //Self referential pointer (SELF/SRP)
+}NODE;
+ 
+int main()
+{
+    //creating nodes &allocated memory
+    NODE h1,h2,h3,h4,h5;
+ 
+    //ptr1 is used to navigate/tarverse between nodes
+    NODE *ptr1=NULL;
+ 
+    //initialize values to each node
+ 
+    h1.val = 10;
+    h1.ptr = NULL;
+ 
+    h2.val = 20;
+    h2.ptr = NULL;
+ 
+    h3.val = 30;
+    h3.ptr = NULL;
+ 
+    printf("\nAddress of h1=%p",&h1);
+    printf("\nAddress of h2=%p",&h2);
+    printf("\nAddress of h3=%p",&h3);
+    printf("\nAddress of ptr1=%p",&ptr1);
+ 
+    printf("\nh1.value = %d and ptr = %p",h1.val,h1.ptr);
+    printf("\nh2.value = %d and ptr = %p",h2.val,h2.ptr);
+    printf("\nh3.value = %d and ptr = %p",h3.val,h3.ptr);
+ 
+    printf("\ncontents of ptr1/ptr1 is poiting to:  %p",ptr1);
+ 
+    //Making relationship
+ 
+    h1.ptr=&h2;
+    h2.ptr=&h3;
+
+//travers
+    ptr1 = &h1; //ptr1 is pointing to base address of list or first rec
+ 
+    printf("\n%d",h1.val);
+    printf("\n%d",ptr1->val);
+ 
+ 
+    //ptr1=&h2;
+    //ptr1=h1.ptr; // ptr1 is pointing to h2
+    ptr1 = ptr1->ptr;
+    printf("\n%d",ptr1->val);
+ 
+    //ptr1=h2.ptr; //ptr1 is pointing to h3
+    ptr1 = ptr1->ptr;
+    printf("\n%d",ptr1->val);
+ 
+    // create new node and init with values
+    h4.val = 40;
+    h4.ptr = NULL;
+ 
+    h5.val = 50;
+    h5.ptr = NULL;
+ 
+    //inserting new node h4 between h1 and h2
+    h1.ptr = &h4;
+    h4.ptr = &h2;
+ 
+    //inserting new node at end
+    h3.ptr = &h5;
+ 
+/*
+    //again ptr1 is pointing base of address of list
+    printf("\nNew list");
+ 
+    ptr1 = &h1;
+    printf("%d->",ptr1->val);
+ 
+    //ptr1 = h1.ptr;
+    ptr1 = ptr1->ptr;
+    printf("%d->",ptr1->val);
+
+//ptr1 = h4.ptr;
+    ptr1 = ptr1->ptr;
+    printf("%d->",ptr1->val);
+ 
+    //ptr1 = &h2.ptr;
+    ptr1 = ptr1->ptr;
+    printf("%d->",ptr1->val);
+ 
+    //ptr1 = &h3.ptr;
+    ptr1 = ptr1->ptr;
+    if(ptr1==NULL)
+        printf("NULL");
+    else
+        printf("\n%d:",ptr1->val);
+*/
+    //printing new list using loops
+    ptr1 = &h1;
+    printf("\nNew list is\n");
+    while(ptr1!=NULL)
+    {
+        printf("%d->",ptr1->val);
+        ptr1 = ptr1->ptr;
+    }
+    printf("NULL");
+ 
+    printf("\n\n");
+ 
+    return 0;
+}
+ 
+OUTPUT:
+Address of h1=0x7ffee5f02fa0
+Address of h2=0x7ffee5f02f90
+Address of h3=0x7ffee5f02f80
+Address of ptr1=0x7ffee5f02f58
+h1.value = 10 and ptr = (nil)
+h2.value = 20 and ptr = (nil)
+h3.value = 30 and ptr = (nil)
+contents of ptr1/ptr1 is poiting to:  (nil)
+10
+10
+20
+30
+New list is
+10->40->20->30->50->NULL
+
+
+ptr1=head
+
+
+
+
+
+
+
+PROGRAM: //CREATING NEW NODE AT BEGINNING
+
+#include <stdio.h>
+#include <stdlib.h>
+ 
+typedef struct node
+{
+    int val;
+    struct node *ptr; //Self referential pointer (SELF/SRP)
+}NODE;
+ 
+int main()
+{
+    //creating nodes &allocated memory
+    NODE h1,h2,h3,h4,h5,h6;
+ 
+    //ptr1 is used to navigate/tarverse between nodes
+    NODE *ptr1=NULL;
+ 
+    //initialize values to each node
+ 
+    h1.val = 10;
+    h1.ptr = NULL;
+ 
+    h2.val = 20;
+    h2.ptr = NULL;
+ 
+    h3.val = 30;
+    h3.ptr = NULL;
+ 
+    printf("\nAddress of h1=%p",&h1);
+    printf("\nAddress of h2=%p",&h2);
+    printf("\nAddress of h3=%p",&h3);
+    printf("\nAddress of ptr1=%p",&ptr1);
+ 
+    printf("\nh1.value = %d and ptr = %p",h1.val,h1.ptr);
+    printf("\nh2.value = %d and ptr = %p",h2.val,h2.ptr);
+    printf("\nh3.value = %d and ptr = %p",h3.val,h3.ptr);
+ 
+    printf("\ncontents of ptr1/ptr1 is poiting to:  %p",ptr1);
+ 
+    //Making relationship
+ 
+    h1.ptr=&h2;
+    h2.ptr=&h3;
+
+//travers
+    ptr1 = &h1; //ptr1 is pointing to base address of list or first rec
+ 
+    printf("\n%d",h1.val);
+    printf("\n%d",ptr1->val);
+ 
+ 
+    //ptr1=&h2;
+    //ptr1=h1.ptr; // ptr1 is pointing to h2
+    ptr1 = ptr1->ptr;
+    printf("\n%d",ptr1->val);
+ 
+    //ptr1=h2.ptr; //ptr1 is pointing to h3
+    ptr1 = ptr1->ptr;
+    printf("\n%d",ptr1->val);
+ 
+    // create new node and init with values
+    h4.val = 40;
+    h4.ptr = NULL;
+ 
+    h5.val = 50;
+    h5.ptr = NULL;
+    
+     h6.val = 60;
+    h6.ptr = NULL;
+ 
+    //inserting new node h4 between h1 and h2
+    h1.ptr = &h4;
+    h4.ptr = &h2;
+ 
+    //inserting new node at end
+    h3.ptr = &h5;
+    h6.ptr=&h1;
+ 
+/*
+    //again ptr1 is pointing base of address of list
+    printf("\nNew list");
+ 
+    ptr1 = &h1;
+    printf("%d->",ptr1->val);
+ 
+    //ptr1 = h1.ptr;
+    ptr1 = ptr1->ptr;
+    printf("%d->",ptr1->val);
+
+//ptr1 = h4.ptr;
+    ptr1 = ptr1->ptr;
+    printf("%d->",ptr1->val);
+ 
+    //ptr1 = &h2.ptr;
+    ptr1 = ptr1->ptr;
+    printf("%d->",ptr1->val);
+ 
+    //ptr1 = &h3.ptr;
+    ptr1 = ptr1->ptr;
+    if(ptr1==NULL)
+        printf("NULL");
+    else
+        printf("\n%d:",ptr1->val);
+*/
+    //printing new list using loops
+    ptr1 = &h6;
+    printf("\nNew list is\n");
+    while(ptr1!=NULL)
+    {
+        printf("%d->",ptr1->val);
+        ptr1 = ptr1->ptr;
+    }
+    printf("NULL");
+ 
+    printf("\n\n");
+ 
+    return 0;
+}
+
+OUTPUT:
+Address of h1=0x7fff50183130
+Address of h2=0x7fff50183120
+Address of h3=0x7fff50183110
+Address of ptr1=0x7fff501830d8
+h1.value = 10 and ptr = (nil)
+h2.value = 20 and ptr = (nil)
+h3.value = 30 and ptr = (nil)
+contents of ptr1/ptr1 is poiting to:  (nil)
+10
+10
+20
+30
+New list is
+60->10->40->20->30->50->NULL
+
+
+
+
+function with void appendnode
+???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+ void appendNODE(NODE *head, NODE *nn)//it has to be node* and cannot be of generic pointer
+ {
+    while(head->NULL!=NULL)
+    {
+        printf("\n in appendnode");
+        head=head->ptr;
+    }
+    printf("\n%d",head->val);
+        printf("\n%d",head->ptr);
+        head->ptr=nn;
+        
+    }
+ }
+
+
+
+if head=null->no list is present/empty list
+
+head is of node* type
+
+node to be added to beginning of list-->check for empty list-->new node to be head of list
+if list is not empty-->address of new node pointer should point to base address
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

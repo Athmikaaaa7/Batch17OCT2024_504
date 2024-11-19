@@ -1,0 +1,106 @@
+getting started
+data types and format specifiers
+
+
+while (getchar() != '\n'); // clear the buffer
+
+
+command line arguments
+
+int arr[5];
+printf("Size of array: %zu\n", sizeof(arr));  // This will print the total memory size in bytes
+
+
+int arr[5];
+int n = sizeof(arr) / sizeof(arr[0]);  // This will give the number of elements in the array
+
+
+
+
+
+COMMAND LINE ARGUMENTS: arg count, arg variable
+   ( gcc -wall -g//supplying application to client, we must not use -g since we can get access to source code)
+   (output file name - gcc -wall -g <filename.c> -o app)
+main(int argc,char *argv[]) // int argc-no.of args we supply, char *argv[]-which r the args
+
+
+
+int main(int argc,char *argv[])
+printf("\n no.of args=%d",argc);
+o/p: 1 2 3 4 5 6
+no.of args=7;
+//names+name of application
+
+
+
+
+int main(int argc,char *argv[])
+{
+int i;
+printf("\n no.of args=%d",argc);
+for(i=0;i<argc;i++)
+printf("\n argv[%d]=%s",i,argv[i]);
+printf("\n\n");
+return 0;
+}
+
+
+
+remove new line char: lines[strlen(lines)-1]='\0'; or 
+// Remove newline character if present--------->buffer[strcspn(buffer, "\n")] = '\0';
+
+
+
+
+Macros should be defined with caps
+
+
+wap to read contents of multiple employees from a file and store them in a structure employee records using command line arguments to supply the database
+configuration file?
+follow directory structure and menu based
+
+bin folder, data folder, app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

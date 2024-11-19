@@ -1,0 +1,403 @@
+inline functions?
+------sprint------------------------------------------------------------------------------------------------------------------------------------------
+client and server technology
+declaration with documentation
+standard ansii
+single line commentation are not to be done in one line, use /* */
+try to use multiple structures
+go through coding standards sir sent
+driver/ main() must be less in number 
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+pointer expression are diff from notationa(should have index value)
+
+malloc(1 i/p char), calloc(2 i/p char)
+
+
+
+Free the momory: free the pointer? free(ptr);
+ Error: free(): double free detected in tcache 2 (core dump)-----> we should know which free u r doing double
+
+
+
+
+*STRINGS:*
+
+char a='D'
+
+char name[5]:{'h','e','l','l','o'}; ------> collection of characters and not strings
+
+int arr[5]={1,2,3,4,5}
+for(i=0;i<5;i++)
+printf("%d",arr[i]);
+
+for(i=0;i<5;i++)
+printf("%c",Name[i]);
+
+
+why are (only) string always ending with null? 
+
+
+char name[6]:{'h','e','l','l','o','\0'};-------> this name can be treated as string
+char name[6]="hello";----------> is a string
+char greet[]="hello world"; -----> without specifying size of string(size+1 is taken)
+
+
+char str1[21];-------> 20 will go as no.of char and last one is null char(static array)(sure of not exceeding this size)
+
+declare an array of char w/o size?-----> not possible. col size is necessary but row size is not necessary in 2D array
+ex: char name[][20]: n number of rows we can give but should not cross 19+1 char in each row
+
+
+char name[10][50];-------> there are 10 name, each of 50 char max
+
+
+array to function--> name of array and not full array----> we just need base address
+
+#include <stdio.h>
+int main()
+{
+    char name[5];
+    int i;
+    for(i=0;i<5;i++)
+    scanf("%c",&name[i]);
+for(i=0;i<5;i++)
+    printf("\n%c=%d",name[i],name[i]);
+    printf("%s");
+    printf("\n\n");
+    return 0;
+}
+
+OUTPUT:
+bhima
+
+b=98
+h=104
+i=105
+m=109
+a=97
+
+
+segmentation core dump/ stack smashing while dealing with strings-----> illegal entry---> unreserved memory---> try to fetch all char until null is found
+fetched beyound scope of characeter. this is why null character is important.
+
+string functionalities:
+
+strcpy:copies from source to destination, 1st arg must be empty string (destination), 2nd (source)must be filled string, null char won't be copied but added by string copy.
+strcnpy: copying specific string size contents. once copied it also send base address of destination.
+
+#include <stdio.h>
+#include<string.h>
+int main()
+{
+    char s1[20],s2[20];
+    char d1[40],d2[40];
+    int ret=0;
+    scanf("%s%s",s1,s2);
+    printf("\ns1=%s\ts2=%s",s1,s2);
+    /*
+    ret=strcmp(s1,s2);
+    printf("\nret=%d",ret);
+    */
+    strcpy(d1,s1);
+    printf("\nd1=%s",d1);
+    return 0;
+}
+
+
+
+PROGRAM:
+#include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int main()
+{
+    char s1[20],s2[20];
+    char d1[40],d2[40];
+    char *ptr=NULL;
+    int ret=0;
+    scanf("%s%s",s1,s2);
+    ptr=(char *)malloc(strlen(s1)+1);
+    printf("\ns1=%s\ts2=%s",s1,s2);
+    /*
+    ret=strcmp(s1,s2);
+    printf("\nret=%d",ret);
+    */
+    strcpy(d1,s1);//d2= ---> error: assignment to expression with array type, d1 and d2 are static array so compiler allocates address for them. so address cannot be equal to address
+    printf("\nd1=%s",d1);
+    printf("\nptr=%s",ptr);
+    printf("\n address of d1=%u\n address of ptr=%u\n",&d1,&ptr);
+    printf("\n\n");
+    return 0;
+}
+//w/o allocation of ptr can ptr print?
+
+OUTPUT:
+bhima shankar
+
+s1=bhima	s2=shankar
+d1=bhima
+ptr=
+ address of d1=755116704
+ address of ptr=755116648
+
+
+
+char //initializing
+printf %s,*ptr // given char but returning in int// ptr gives destination content
+---> remove the star// should be giving only base address for collection of char or strings
+
+
+
+strcat: concatenation of 2 strings- to the destination we r adding the source. -----> dest size(5+5+1) must be more than source size(5)
+strncat: concating specific size of string
+
+
+strcmp: compares 2 strings by character to character ascii value. Immediately terminates if any mismatches.
+strncmp: 
+
+PROGRAM: // INCLUDE THIS IN IF VALUE OR COMPARE DIRECTLY
+#include <stdio.h>
+#include<string.h>
+int main()
+{
+    char s1[20],s2[20];
+    int ret=0;
+    scanf("%s%s",s1,s2);
+    printf("\ns1=%s\ts2=%s",s1,s2);
+    ret=strcmp(s1,s2);
+    printf("\nret=%d",ret);
+    printf("\n\n");
+    return 0;
+}
+
+
+strcol(3)---> returns an integer
+
+s1 ascii > s2 ascii--> pos value..........if both are equal ascii, res=0. that's y comparing with less than, greater tha or zero
+
+strlen: length of string excluding null character
+
+
+
+***SPRINT*** memset: initialising structures, memcpy, strstr, strtok
+
+(strtok): TOKENISING OF STRING, I/P OF VALUE TO VARIABLE WILL START FROM TOKENISING
+
+strerror: captures only string handling errors
+strsep
+
+
+strstr:1st occurance of substring in main string (could be even "single char" but treated as string by using "")
+strcasestr: sends base address/pos of strstr
+strchr: function returns pointer to 1st occurance of character
+strrchr:function returns pointer to last occurance of character
+
+
+strtok: #include<string.h>
+The  strtok()  function breaks a string into a sequence of zero or more nonempty tokens. depends on how you initialize delimiter(in looping manner).
+       The delim argument specifies a set of bytes that delimit the tokens  in
+       the  parsed  string.  The caller may specify different strings in delim
+       in successive calls that parse the same string.
+
+
+PROGRAM: // copy from sir github day 11-p6.c
+#include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int main()
+{
+    char s1[400],s2[20];
+char *ptr = NULL;
+printf("Enter the line with delimiter\n");
+    scanf("%[^\n]s",s1); // to remove null dat used [^\n]
+    // strtok
+    ptr = strtok(s1,",");
+    printf("\nptr = %s",ptr);
+    printf("\n\n");
+    return 0;
+}
+
+OUTPUT:
+Enter the line with delimiter
+bhima yyy,kill
+
+ptr = bhima yyy
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+
+        char s1[400],s2[20];
+        char Names[10][20];
+        int count=0,i;
+
+        char *ptr=NULL;
+
+        printf("\nEnter the Line with delimiter\n");
+        scanf("%[^\n]s",s1);
+
+        ptr = strtok(s1,",");
+        count = 0;
+        while(ptr != NULL){
+                printf("\nptr = %s",ptr);
+                strcpy(Names[count],ptr);
+                count++;
+                ptr = strtok(NULL,",");
+        }
+
+        printf("\nNames are\n");
+        for(i=0;i<count;i++)
+                printf("\n%s",Names[i]);
+
+        /*
+        printf("\nptr = %s",ptr);
+
+        ptr = strtok(NULL,",");
+
+        printf("\nptr = %s",ptr);
+
+
+        ptr = strtok(NULL,",");
+        if(ptr == NULL)
+                printf("\nEnd of string");
+        else
+                printf("\nptr = %s",ptr);
+
+       printf("\n\n");
+
+        return 0;
+}
+                     
+
+
+
+
+
+USER DEFINED DATATYPE:buching group of fundamentals that meets our needs
+1.structure
+2.union
+3.enum
+
+
+struct tagname
+{
+members of structure
+};
+
+struct square
+{
+int length;
+int breadth;
+}
+
+
+struct square s1,s2,s3; //declaring variable-struct is 1 dt, s1,s2,s3 are 3 types of squares
+
+struct square
+{
+int len;
+int breadth;
+} s4,s5,s6,s[10]; //fixed structures.cannot add more or have multiple stuctures
+
+
+void func(struct square s) // we need to do type def of these dt to not have to write void func multiple times---->
+typedef structsquare <SQR(name in capital)>; then we can do 
+SQR s7,s8,s9 instead of typing
+
+typedef struct square
+{
+int len;
+int breadth;
+}SQR1  ----->alli's name given to square(typedef) and not name of var
+
+
+
+2 ways to access structure:
+1) . //static variable ==>nameVar.memberName
+                                             SQR1 
+                                             s1.len
+2) -> // when variable of structure declared as pointer ==>nameVar->memberName
+                                         SQR1 *ptr // ptr is a pointer variabe
+                                         ptr->len;
+  
+
+
+A structure cannot declare/use functions acc to standard ansii
+
+better to declare structures in header files/above the main as it can be used by everyone/ globally declared.
+If u do it within main---> it is local variable and cannot be accessed by all 
+
+structure padding :
+{
+    int eid;
+    char ename[20];       // before 
+    float esal;
+    char egender;
+    char eaddress[20]; 
+}
+pg 1- 25bytes remaining
+pg 2- empty
+
+the 1st 2 lines in code takwes up 24byte and hence the remaining goes to next page. so if 1 byte is unutilized it increses the byte size of structure
+to avoid this we must declare all numbers n beginning and char must be declared at end/ vice versa. do not mix them up while declaring.
+
+struct emp
+{
+    char ename[20];
+    char egender;
+    char eaddress[20];     // after
+     int eid;
+    float esal;
+}
+
+
+
+
+
+
+cannot use assignment operators for string---> so use string operations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

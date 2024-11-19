@@ -1,0 +1,219 @@
+UNION:
+capacity of the union will be dependant on size of member which has more size.
+
+to store and access, the size must be fixed.
+
+why must we use union? 
+
+PROGRAM: //from sir directory day13 p1
+#include <stdio.h>
+#include<string.h>
+#include<stdlib.h>
+typedef struct semployee
+ {
+   int id;
+   float sal;
+   char g;
+   char name[20];
+ }
+ semp;
+ typedef union uemployee
+ {
+   int id;
+   float sal;
+   char g;
+   char name[20];
+ }
+ uemp;
+ int main()
+ {
+semp es;
+uemp eu;
+printf("\n size of struct=%d",sizeof(es));
+printf("\n size of union=%d",sizeof(eu));
+    printf("\n\n");
+
+    return 0;
+}
+
+OUTPUT:
+ size of struct=32
+ size of union=20
+
+
+whatever i/p variables are there will be overwritten. 
+
+storage will be the member having highest capacity
+
+
+
+
+
+
+Enum: set of named integer const that specify all the legal values of a variable
+indicates start of enumeration datatype
+general form: enumenum.type.name{enumeration list}variable list;
+
+#include<stdio.h>
+enum days0week
+{
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
+        sunday
+}days;
+int main()
+{
+        days=friday;
+        printf("\nday=%d",days);
+        printf("\n\n");
+        return 0;
+}
+
+// OUTPUT: day=4
+
+
+
+#include<stdio.h>
+enum days0week
+{
+        monday=1000,
+        tuesday,
+        wednesday,
+        thursday=10004,
+        friday,
+        saturday,
+        sunday
+}days;
+int main()
+{
+        days=friday;
+        printf("\nday=%d",days);
+        printf("\n\n");
+        return 0;
+}
+OUTPUT:
+day=10005
+
+
+
+files:
+if the file doesn't exist, it willcreate a new file with the name we r searching for nd the pointer will point to that
+ man fopen
+
+
+truncate- clearing exisitng contents
+
+
+man fgetc
+
+man fputs: from buffer we want to write from string
+
+
+reading and writing program-sir directory - day 13- file1.c
+explicitly end string with null
+
+
+copying contents from one file to another
+
+one file in read mode
+one file in write mode
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+read contents from database and strote it in structure as well as printing in struct using struct, the record of the employees
+db.txt
+
+use make files
+
+allocate memory based on number of records//how many employee data we need instead of using pipe---//loop,count,details
+
+dynamically:
+we need to have linked list..emp1, emp2...in seperate list with each pointing to prev one
+read record and allocate memory for 1 employee
+employee1 must be connected to new emp
+
+?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+
+script?, make file? , make scripts?, shell scripting?
+
+
+
+
+system as a library call to clear the screen: system("clear"); //to use this u must have stdlib.h
+//if u scroll up after execution..only the o/p is visible
+
+where will the record end dynamically?--> data structures-> last record will be pointing to null
+
+
+
+
+
+
+command line args to know line (-wc:word count)(-wc -l ./data/db.txt> ./data/records.txt)......cat ./data/records.txt
+redirection operator
+
+-wc -l ./data/db.txt | grep -n
+
+
+system commands 
+
+man execl
+
+ file position? fgetpos, fsetpos
+
+how many bites to move forward or backward? how to do this?
+
+
+man freadS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
